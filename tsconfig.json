@@ -1,0 +1,24 @@
+{
+    "compilerOptions": {
+        "target": "ES2020",
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        // Emit only declaration files
+        "declaration": true,
+        "declarationMap": true,
+        "emitDeclarationOnly": true,
+        // Specify where to put the .d.ts files
+        "strict": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "removeComments": true
+    },
+    // Only compile your source .ts files (and index.ts if at root)
+    "include": [
+        "index.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}

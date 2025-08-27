@@ -1,0 +1,29 @@
+{
+    "name": "@ludeschersoftware/types",
+    "version": "1.0.0",
+    "description": "Generic collection of TypeScript type definitions and helpers.",
+    "publishConfig": {
+        "access": "public"
+    },
+    "main": "",
+    "files": [
+        "index.d.ts"
+    ],
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "types": "index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/ludeschersoftware/JTypes.git"
+    },
+    "keywords": [
+        "types"
+    ],
+    "author": "Johannes Ludescher",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/ludeschersoftware/JTypes/issues"
+    },
+    "homepage": "https://github.com/ludeschersoftware/JTypes#readme"
+}
