@@ -26,4 +26,5 @@ export type RequiredProps<T> = {
 export type NonNullableProps<T> = {
     [K in keyof T]-?: NonNullable<T[K]>;
 };
+export type ExcludeProps<T, K extends keyof T | (keyof T)[]> = Omit<T, K extends (keyof T)[] ? K[number] : K>;
 //# sourceMappingURL=index.d.ts.map

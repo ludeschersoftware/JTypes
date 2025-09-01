@@ -23,7 +23,7 @@ yarn add --dev @ludeschersoftware/types
 Keep your types modular and explicit. Import only what you need:
 
 ```ts
-import { Vector2, Size, Box, Loose, Optional, RequiredProps } from '@ludeschersoftware/types'
+import { Vector2, Size, Box, Loose, Optional, RequiredProps, ExcludeProps } from '@ludeschersoftware/types'
 
 const origin: Vector2 = { x: 0, y: 0 }
 const canvasSize: Size = { width: 800, height: 600 }
@@ -32,6 +32,9 @@ const viewport: Box = { ...origin, ...canvasSize }
 
 type PartialCanvas = Loose<Size> // width and height can be null or undefined
 type StrictCanvas = RequiredProps<Size> // width and height must be defined
+
+// Exclude certain props
+type PublicCanvas = ExcludeProps<Size, "height"> // only width remains
 ```
 
 ---
@@ -115,6 +118,14 @@ These helpers make it easier to adapt strict types to flexible scenarios like fo
   type NonNullableProps<T> = { [K in keyof T]-?: NonNullable<T[K]> }
   ```
 
+* **`ExcludeProps<T, K>`**
+  Excludes one or more keys from a type. `K` can be a single key or an array of keys.
+
+  ```ts
+  type ExcludeProps<T, K extends keyof T | (keyof T)[]> =
+    Omit<T, K extends (keyof T)[] ? K[number] : K>
+  ```
+
 ---
 
 ## 🔍 Utility Type Comparison
@@ -126,19 +137,22 @@ type User = {
   id?: number | null;
   name?: string;
   email?: string | undefined;
+  password?: string;
 };
 ```
 
-| Utility Type                 | Resulting Shape                                                                                                 |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------- |
-| **`Loose<User>`**            | `{ id?: number \| null \| undefined; name?: string \| null \| undefined; email?: string \| null \| undefined }` |
-| **`Optional<User>`**         | `{ id?: number \| null; name?: string; email?: string \| undefined }`                                           |
-| **`Nullable<User>`**         | `{ id: number \| null; name: string \| null; email: string \| null }`                                           |
-| **`Undefinable<User>`**      | `{ id: number \| null \| undefined; name: string \| undefined; email: string \| undefined }`                    |
-| **`RequiredProps<User>`**    | `{ id: number \| null; name: string; email: string \| undefined }`                                              |
-| **`NonNullableProps<User>`** | `{ id: number; name: string; email: string }`                                                                   |
+| Utility Type                                   | Resulting Shape                                                                                                                                         |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`Loose<User>`**                              | `{ id?: number \| null \| undefined; name?: string \| null \| undefined; email?: string \| null \| undefined; password?: string \| null \| undefined }` |
+| **`Optional<User>`**                           | `{ id?: number \| null; name?: string; email?: string \| undefined; password?: string }`                                                                |
+| **`Nullable<User>`**                           | `{ id: number \| null; name: string \| null; email: string \| null; password: string \| null }`                                                         |
+| **`Undefinable<User>`**                        | `{ id: number \| null \| undefined; name: string \| undefined; email: string \| undefined; password: string \| undefined }`                             |
+| **`RequiredProps<User>`**                      | `{ id: number \| null; name: string; email: string \| undefined; password: string }`                                                                    |
+| **`NonNullableProps<User>`**                   | `{ id: number; name: string; email: string; password: string }`                                                                                         |
+| **`ExcludeProps<User, "password">`**           | `{ id?: number \| null; name?: string; email?: string \| undefined }`                                                                                   |
+| **`ExcludeProps<User, ["password","email"]>`** | `{ id?: number \| null; name?: string }`                                                                                                                |
 
-This table makes it clear how each helper changes the “strictness” of your type modeling.
+This table shows exactly how each helper changes the “strictness” or shape of your types.
 
 ---
 
