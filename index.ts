@@ -25,3 +25,11 @@ export type Nullable<T> = {
 export type Undefinable<T> = {
     [K in keyof T]: T[K] | undefined;
 };
+
+export type RequiredProps<T> = {
+    [K in keyof T]-?: T[K];
+};
+
+export type NonNullableProps<T> = {
+    [K in keyof T]-?: NonNullable<T[K]>;
+};
